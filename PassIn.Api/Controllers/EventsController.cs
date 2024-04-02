@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PassIn.Application.UseCases.Events.GetById;
 using PassIn.Application.UseCases.Events.Register;
 using PassIn.Communication.Requests;
 using PassIn.Communication.Responses;
-using PassIn.Exceptions;
 
 namespace PassIn.Api.Controllers
 {
@@ -12,28 +10,17 @@ namespace PassIn.Api.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        #region Aula01
+
         [HttpPost]
         [ProducesResponseType(typeof(ResponseRegisteredEventJson),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
         public IActionResult Register( [FromBody] RequestEventJson request)
         {
-            try
-            {
-                var useCase = new RegisterEventsUseCase();
+            var useCase = new RegisterEventsUseCase();
 
-                var response = useCase.Execute(request);
+            var response = useCase.Execute(request);
 
-                return Created(string.Empty,response);
-            }
-            catch (PassInException ex)
-            {
-                return BadRequest(new ResponseErrorJson(ex.Message));
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseErrorJson("Unknow Error"));
-            }
+            return Created(string.Empty, response);
         }
 
         [HttpGet]
@@ -42,22 +29,10 @@ namespace PassIn.Api.Controllers
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            try
-            {
-                var useCase = new GetEventByIdUseCase();
-                var response = useCase.Execute(id);
+            var useCase = new GetEventByIdUseCase();
+            var response = useCase.Execute(id);
 
-                return Ok(response);
-            }
-            catch (PassInException ex)
-            {
-                return NotFound(new ResponseErrorJson(ex.Message));
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseErrorJson("Unknow Error"));
-            }
+            return Ok(response);
         }
     }
-    #endregion Aula01
 }
