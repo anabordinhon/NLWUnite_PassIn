@@ -12,6 +12,7 @@ namespace PassIn.Api.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
+        #region Aula01
         [HttpPost]
         [ProducesResponseType(typeof(ResponseRegisteredEventJson),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -58,4 +59,5 @@ namespace PassIn.Api.Controllers
             }
         }
     }
+    #endregion Aula01
 }
